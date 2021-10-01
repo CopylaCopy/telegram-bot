@@ -1,1 +1,1 @@
-web: python3 timerbot_new.py
+worker: python3 timerbot_new.py
