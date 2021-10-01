@@ -4,8 +4,8 @@
 
 import os
 
-#PORT = int(os.environ.get('PORT', 5000))
-PORT = int(os.environ.get('PORT', 8443))
+PORT = int(os.environ.get('PORT', 5000))
+#PORT = int(os.environ.get('PORT', 8443))
 import logging
 import random
 import pandas as pd
@@ -97,12 +97,12 @@ def main() -> None:
     
 
     # Start the Bot
-    updater.start_polling()
-    '''updater.start_webhook(listen="0.0.0.0",
+    #updater.start_polling()
+    updater.start_webhook(listen="0.0.0.0",
                           port=PORT,
                           url_path='1711952452:AAEjsoXJVKy-k7XRU1C3KKi1Q16W66ypcFA',
                           webhook_url='https://telegram-bot16453.herokuapp.com/1711952452:AAEjsoXJVKy-k7XRU1C3KKi1Q16W66ypcFA')
-    '''
+    
     # Block until you press Ctrl-C or the process receives SIGINT, SIGTERM or
     # SIGABRT. This should be used most of the time, since start_polling() is
     # non-blocking and will stop the bot gracefully.
