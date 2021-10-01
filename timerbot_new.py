@@ -37,15 +37,16 @@ def start(update: Update, context: CallbackContext):
     context.job_queue.run_daily(more2, days =  (0, 1, 2, 3, 4, 5, 6), time = datetime.time(hour=12, minute = 00, second = 00, tzinfo=pytz.timezone('Europe/Moscow')), context = update)
     text = """Zen bot regulary at 12:00 gives out a passage from a Zen book by Allan Watts. Type /more if you want some zen-ness off schedule. Type /set if you want to change default time (type hour from 0 till 23)"""
     update.message.reply_text(text)
-    data = pd.read_csv('concatenated_2.csv', sep = '&')
-    stat.data = data.rate
-    stat.passages = data.passage
+
    
 def passage():
     text = random.choices(stat.passages, weights=(stat.rate), k =1)
     return text[0]
 
 def more2(update: Update):
+    data = pd.read_csv('concatenated_2.csv', sep = '&')
+    stat.data = data.rate
+    stat.passages = data.passage
     text = passage()
     while len(text):
         try:
@@ -57,6 +58,9 @@ def more2(update: Update):
             text = ''
     
 def more(update: Update, context: CallbackContext):
+    data = pd.read_csv('concatenated_2.csv', sep = '&')
+    stat.data = data.rate
+    stat.passages = data.passage
     text = passage()
     while len(text) > 0:
         try:
