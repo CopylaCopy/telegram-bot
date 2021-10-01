@@ -4,8 +4,8 @@
 
 import os
 
-PORT = int(os.environ.get('PORT', 5000))
-#PORT = int(os.environ.get('PORT', 8443))
+#PORT = int(os.environ.get('PORT', 5000))
+PORT = int(os.environ.get('PORT', 8443))
 import logging
 import random
 import pandas as pd
