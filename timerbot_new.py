@@ -5,7 +5,6 @@
 import os
 
 PORT = int(os.environ.get('PORT', 5000))
-#PORT = int(os.environ.get('PORT', 8443))
 import logging
 import random
 import pandas as pd
@@ -34,28 +33,14 @@ stat = state()
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
 def start(update: Update, context: CallbackContext):
-    context.job_queue.run_daily(more2, days =  (0, 1, 2, 3, 4, 5, 6), time = datetime.time(hour=12, minute = 00, second = 00, tzinfo=pytz.timezone('Europe/Moscow')), context = update)
-    text = """Zen bot regulary at 12:00 gives out a passage from a Zen book by Allan Watts. Type /more if you want some zen-ness off schedule. Type /set if you want to change default time (type hour from 0 till 23)"""
+    #context.job_queue.run_daily(more, days =  (0, 1, 2, 3, 4, 5, 6), time = datetime.time(hour=20, minute =45, second = 00, tzinfo=pytz.timezone('Europe/Moscow')), context = update)
+    text = """Zen bot regulary at 12:00 gives out a passage from a Zen book by Allan Watts. Type /more if you want some zen-ness off schedule."""
     update.message.reply_text(text)
 
    
 def passage():
     text = random.choices(stat.passages, weights=(stat.rate), k =1)
     return text[0]
-
-def more2(update: Update):
-    data = pd.read_csv('concatenated_2.csv', sep = '&')
-    stat.data = data.rate
-    stat.passages = data.passage
-    text = passage()
-    while len(text):
-        try:
-            update.message.reply_text(text = text[:4050], parse_mode='HTML')
-            text = text[4050:]
-            time.sleep(0.3)
-        except:
-            update.message.reply_text(text = text, parse_mode='HTML') 
-            text = ''
     
 def more(update: Update, context: CallbackContext):
     data = pd.read_csv('concatenated_2.csv', sep = '&')
@@ -72,7 +57,7 @@ def more(update: Update, context: CallbackContext):
             text = ''
     
     
-def set_timer(update: Update, context: CallbackContext):
+'''def set_timer(update: Update, context: CallbackContext):
     stat.time = int(context.args[0])
     chat_id = update.message.chat_id
     current_jobs = context.job_queue.get_jobs_by_name(str(chat_id))
@@ -80,7 +65,7 @@ def set_timer(update: Update, context: CallbackContext):
         job.schedule_removal()
     context.job_queue.run_daily(more2, days =  (0, 1, 2, 3, 4, 5, 6), time = datetime.time(hour=12, minute = 00, second = 00, tzinfo=pytz.timezone('Europe/Moscow')), context = update)
     text = 'Successfully set!'
-    update.message.reply_text(text)
+    update.message.reply_text(text)'''
     
 
 def main() -> None:
@@ -95,13 +80,13 @@ def main() -> None:
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("help", start))
-    dispatcher.add_handler(CommandHandler("set", set_timer))
+    #dispatcher.add_handler(CommandHandler("set", set_timer))
     dispatcher.add_handler(CommandHandler("more", more))
     
     
 
     # Start the Bot
-    #updater.start_polling()
+    updater.start_polling()
     updater.start_webhook(listen="0.0.0.0",
                           port=PORT,
                           url_path='1711952452:AAEjsoXJVKy-k7XRU1C3KKi1Q16W66ypcFA',
@@ -115,3 +100,4 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+    more()
