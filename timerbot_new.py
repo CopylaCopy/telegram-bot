@@ -86,7 +86,7 @@ def main() -> None:
     
 
     # Start the Bot
-    updater.start_polling()
+    #updater.start_polling()
     updater.start_webhook(listen="0.0.0.0",
                           port=PORT,
                           url_path='1711952452:AAEjsoXJVKy-k7XRU1C3KKi1Q16W66ypcFA',
